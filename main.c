@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/09 18:00:31 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/10 19:09:47 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	ft_print(t_mlx e)
+void	ft_print(t_env e)
 {
 	while (e.y < WIN_Y * 3 / 4)
 	{
@@ -28,21 +28,24 @@ void	ft_print(t_mlx e)
 	}
 }
 
-int	ft_key_funct(int keycode, t_mlx *e)
+int	ft_key_funct(int keycode, t_env *e)
 {
 	printf("Key press %d\n", keycode);
-	if (keycode == 124)
-		e->color = e->color - 30;
-	else if (keycode == 53)
+	if (keycode == 121 && e->color >= 0x00111111)
+		e->color = e->color - 0x00111111;
+	if (keycode == 116 && e->color <= 0x00EEEEEE)
+		e->color = e->color + 0x00111111;
+	if (keycode == 53)
 		exit(0);
-//	mlx_clear_window(e->mlx, e->win);
+	mlx_clear_window(e->mlx, e->win);
 	ft_print(*e);
+	printf("color %x\n", e->color);
 	return (0);
 }
 
 int	main(void)
 {
-	t_mlx	e;
+	t_env	e;
 
 	e.color = 0x00FFFFFF;
 	e.y = WIN_Y / 4;

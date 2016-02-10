@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/09 17:44:20 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/10 18:41:13 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 
 # include "mlx.h"
 
-typedef struct		s_mxl
+typedef struct		s_env
 {
 	int				x;
 	int				y;
 	int				color;
 	void			*mlx;
 	void			*win;
-}					t_mlx;
+}					t_env;
 
 #endif
