@@ -6,13 +6,12 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/10 19:09:47 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/11 18:08:46 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
-#include <stdlib.h>
 
 void	ft_print(t_env e)
 {
@@ -43,10 +42,13 @@ int	ft_key_funct(int keycode, t_env *e)
 	return (0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_env	e;
 
+	if (argc != 2)
+		ft_error("number of argument incorrect");
+	ft_parse(&e, argv[1]);
 	e.color = 0x00FFFFFF;
 	e.y = WIN_Y / 4;
 	e.mlx = mlx_init();

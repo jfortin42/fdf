@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/24 10:28:16 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/08 16:44:18 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/11 16:45:35 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ char				*ft_strndup(const char *s, size_t n);
 t_lst				*ft_create_elem(void *data);
 char				*ft_strnjoin(const char *s1, const char *s2, size_t len);
 int					get_next_line(int const fd, char **line);
+void				ft_error(char *error);
 
 #endif

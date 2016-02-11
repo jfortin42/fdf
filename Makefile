@@ -6,7 +6,7 @@
 #    By: jfortin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2016/02/10 18:13:17 by jfortin          ###   ########.fr        #
+#    Updated: 2016/02/11 18:06:10 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,16 @@ FLAG = -Wall -Wextra -Werror
 
 NAME = fdf
 
-SRC = main.c
+SRC = 	main.c \
+		parse.c
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJ)
 		@make -C libft re
-		@gcc $(FLAG) -o $(NAME) $(SRC) -lmlx -framework OpenGL -framework AppKit
+		@gcc $(FLAG) -o $(NAME) $(OBJ) -lmlx -framework OpenGL -framework AppKit libft/libft.a
 		@echo "$(NAME) created"
 
 clean:
