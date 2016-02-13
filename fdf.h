@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/11 18:05:13 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/13 16:38:57 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@
 typedef struct		s_env
 {
 	int				fd;
+	int				**tab;
 	char			**line;
+	size_t			cnt_line;
+	size_t			cnt_col;
 	int				x;
 	int				y;
 	int				color;
