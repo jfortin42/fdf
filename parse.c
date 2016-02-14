@@ -6,13 +6,13 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/13 19:13:56 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/14 14:07:18 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		ft_split_line(t_env *e, char *file)
+int		ft_split_line(t_env *e)
 {
 	char	*line;
 	int		ret;
@@ -34,19 +34,34 @@ void	ft_int2d(t_env *e, char *file)
 
 	e->cnt_col = 0;
 	e->cnt_line = 0;
-	while ((get_next_line(e->fd, &line) == 1))
+	while (get_next_line(e->fd, &line) == 1)
 	{
 		++e->cnt_line;
 		free(line);
 	}
+	if (e->cnt_line == 0)
+		ft_error("read as failed");
 	e->tab = (int **)ft_memalloc(sizeof(int *) * e->cnt_line);
 	close(e->fd);
 	e->fd = open(file, O_RDONLY);
-	ft_split_line(e, file);
+	ft_split_line(e);
 	while (e->line[e->cnt_col])
 		++e->cnt_col;
 	while (e->cnt_line-- > 0)
 		e->tab[e->cnt_line] = (int *)ft_memalloc(sizeof(int *) * e->cnt_col);
+}
+
+void	ft_freestr2d(t_env *e)
+{
+	int		i;
+
+	i = 0;
+	while (e->line[i])
+	{
+		ft_strdel(&e->line[i]);
+		++i;
+	}
+	free(e->line);
 }
 
 void	ft_parse(t_env *e, char *file)
@@ -62,16 +77,18 @@ void	ft_parse(t_env *e, char *file)
 		e->tab[0][nbr_col] = ft_atoi(e->line[nbr_col]);
 		++nbr_col;
 	}
-//	free(e->line);
-	while (ft_split_line(e, file) == 1)
+	ft_freestr2d(e);
+	while (ft_split_line(e) == 1)
 	{
 		++e->cnt_line;
 		nbr_col = 0;
-		while (nbr_col < e->cnt_col)
+		while (e->line[nbr_col])
 		{
 			e->tab[e->cnt_line][nbr_col] = ft_atoi(e->line[nbr_col]);
 			++nbr_col;
 		}
+		if (nbr_col != e->cnt_col)
+			ft_error("invalid map");
 	}
 	// checking
 	int		x;
