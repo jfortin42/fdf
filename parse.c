@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/15 13:35:49 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/15 21:53:04 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int		ft_split_line(t_env *e)
 	}
 	return (ret);
 }
-
 
 void	ft_int2d(t_env *e, char *file)
 {
@@ -49,8 +48,11 @@ void	ft_int2d(t_env *e, char *file)
 	ft_split_line(e);
 	while (e->line[e->cnt_col])
 		++e->cnt_col;
-	while (e->cnt_line-- > 0)
-		e->tab[e->cnt_line] = (int *)ft_memalloc(sizeof(int *) * e->cnt_col);
+	while (e->cnt_line > 0)
+	{
+		e->tab[e->cnt_line - 1] = (int*)ft_memalloc(sizeof(int*) * e->cnt_col);
+		--e->cnt_line;
+	}
 }
 
 void	ft_freestr2d(t_env *e)
@@ -83,15 +85,13 @@ void	ft_parse(t_env *e, char *file)
 	while (ft_split_line(e) == 1)
 	{
 		++e->cnt_line;
-		nbr_col = 0;
-		while (e->line[nbr_col])
-		{
+		nbr_col = -1;
+		while (e->line[++nbr_col])
 			e->tab[e->cnt_line][nbr_col] = ft_atoi(e->line[nbr_col]);
-			++nbr_col;
-		}
 		if (nbr_col != e->cnt_col)
 			ft_error("invalid map");
 	}
+	++e->cnt_line;
 	// checking
 	int		x;
 	int		y;

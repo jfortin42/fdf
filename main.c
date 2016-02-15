@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/12 18:54:14 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/15 21:02:17 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,27 @@
 
 void	ft_print(t_env e)
 {
-	while (e.y < WIN_Y * 3 / 4)
+	ft_putnbr(e.cnt_line);
+	e.y = WIN_Y / (e.cnt_line + 1);
+	while (e.y <= WIN_Y * e.cnt_line / (e.cnt_line + 1))
 	{
-		e.x = WIN_X / 4;
-		while (e.x < WIN_X * 3 / 4)
+		e.x = WIN_X / (e.cnt_col + 1);
+		while (e.x <= WIN_X * e.cnt_col / (e.cnt_col + 1))
 		{
 			mlx_pixel_put(e.mlx, e.win, e.x, e.y, e.color);
-			++e.x;
+			e.x = e.x + (WIN_X / (e.cnt_col + 1));
 		}
-		++e.y;
+		e.y = e.y + (WIN_Y / (e.cnt_line + 1));
 	}
 }
 
 int	ft_key_funct(int keycode, t_env *e)
 {
 	printf("Key press %d\n", keycode);
-	if (keycode == 121 && e->color >= 0x00111111)
-		e->color = e->color - 0x00111111;
-	if (keycode == 116 && e->color <= 0x00EEEEEE)
-		e->color = e->color + 0x00111111;
+	if (keycode == 121 && e->color >= 0x111111)
+		e->color = e->color - 0x111111;
+	if (keycode == 116 && e->color <= 0xEEEEEE)
+		e->color = e->color + 0x111111;
 	if (keycode == 53)
 		exit(0);
 	mlx_clear_window(e->mlx, e->win);
