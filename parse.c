@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/14 14:07:18 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/15 13:35:49 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,18 @@ int		ft_split_line(t_env *e)
 void	ft_int2d(t_env *e, char *file)
 {
 	char	*line;
+	int		len;
 
 	e->cnt_col = 0;
 	e->cnt_line = 0;
 	while (get_next_line(e->fd, &line) == 1)
 	{
 		++e->cnt_line;
+		len = ft_strlen(line);
 		free(line);
 	}
-	if (e->cnt_line == 0)
-		ft_error("read as failed");
+	if (e->cnt_line == 0 || len == 0)
+		ft_error("read has failed");
 	e->tab = (int **)ft_memalloc(sizeof(int *) * e->cnt_line);
 	close(e->fd);
 	e->fd = open(file, O_RDONLY);
