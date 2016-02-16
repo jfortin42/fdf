@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/15 21:02:17 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/16 19:13:47 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,23 @@
 
 void	ft_print(t_env e)
 {
-	ft_putnbr(e.cnt_line);
-	e.y = WIN_Y / (e.cnt_line + 1);
-	while (e.y <= WIN_Y * e.cnt_line / (e.cnt_line + 1))
+	int		tile;
+
+	if (WIN_Y / (e.cnt_line + 1) < WIN_X / (e.cnt_col + 1))
+		tile = WIN_Y / (e.cnt_line + 1);
+	else
+		tile = WIN_X / (e.cnt_col + 1);
+
+	e.y = (WIN_Y - ((e.cnt_line - 1) * tile)) / 2;
+	while (e.y <= WIN_Y - (WIN_Y - ((e.cnt_line - 1) * tile)) / 2)
 	{
-		e.x = WIN_X / (e.cnt_col + 1);
-		while (e.x <= WIN_X * e.cnt_col / (e.cnt_col + 1))
+		e.x = (WIN_X - ((e.cnt_col - 1) * tile)) / 2;
+		while (e.x <= WIN_X - (WIN_X - ((e.cnt_col - 1) * tile)) / 2)
 		{
 			mlx_pixel_put(e.mlx, e.win, e.x, e.y, e.color);
-			e.x = e.x + (WIN_X / (e.cnt_col + 1));
+			e.x = e.x + tile;
 		}
-		e.y = e.y + (WIN_Y / (e.cnt_line + 1));
+		e.y = e.y + tile;
 	}
 }
 
