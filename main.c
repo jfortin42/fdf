@@ -6,33 +6,48 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/16 19:13:47 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/17 19:12:52 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdio.h>
 
-void	ft_print(t_env e)
+void	ft_calc(size_t x, size_t y, t_env *e)
 {
-	int		tile;
+	int		pre_y;
+	int		pre_x;
 
-	if (WIN_Y / (e.cnt_line + 1) < WIN_X / (e.cnt_col + 1))
-		tile = WIN_Y / (e.cnt_line + 1);
-	else
-		tile = WIN_X / (e.cnt_col + 1);
+	e->x = y * 20 + x * 20 + (WIN_X / 5 * 2);
+	e->y = y * 20 - x * 20 + (WIN_Y / 5 * 2);
 
-	e.y = (WIN_Y - ((e.cnt_line - 1) * tile)) / 2;
-	while (e.y <= WIN_Y - (WIN_Y - ((e.cnt_line - 1) * tile)) / 2)
+	if (y == 0)
+		pre_y = e->y;
+	if (x == 0)
+		pre_x = e->x;
+	//ft_trace(e, pre_x, pre_y);
+	pre_y = e->y;
+	pre_x = e->x;
+}
+
+void	ft_print(t_env *e)
+{
+	size_t	y;
+	size_t	x;
+
+	y = 0;
+	while (y < e->cnt_line)
 	{
-		e.x = (WIN_X - ((e.cnt_col - 1) * tile)) / 2;
-		while (e.x <= WIN_X - (WIN_X - ((e.cnt_col - 1) * tile)) / 2)
+		x = 0;
+		while (x < e->cnt_col)
 		{
-			mlx_pixel_put(e.mlx, e.win, e.x, e.y, e.color);
-			e.x = e.x + tile;
+			ft_calc(x, y, e);
+			mlx_pixel_put(e->mlx, e->win, e->x, e->y, e->color);
+			++x;
 		}
-		e.y = e.y + tile;
+		++y;
 	}
+
 }
 
 int	ft_key_funct(int keycode, t_env *e)
@@ -45,7 +60,7 @@ int	ft_key_funct(int keycode, t_env *e)
 	if (keycode == 53)
 		exit(0);
 	mlx_clear_window(e->mlx, e->win);
-	ft_print(*e);
+	ft_print(e);
 	printf("color %x\n", e->color);
 	return (0);
 }
@@ -61,7 +76,7 @@ int	main(int argc, char **argv)
 	e.y = WIN_Y / 4;
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
-	ft_print(e);
+	ft_print(&e);
 	mlx_key_hook(e.win, ft_key_funct, &e);
 	mlx_loop(e.mlx);
 	return (0);
