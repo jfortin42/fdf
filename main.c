@@ -6,11 +6,11 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/18 18:44:26 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/18 19:29:47 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fdf.h"
+#include "fdf.h"
 #include <stdio.h>
 
 void	ft_calc(size_t x, size_t y, t_env *e)
@@ -25,12 +25,13 @@ void	ft_calc(size_t x, size_t y, t_env *e)
 		pre_y = e->y;
 	if (x == 0)
 		pre_x = e->x;
-	//ft_trace(e, pre_x, pre_y);
+	ft_line(e->x, e->y, pre_x, pre_y, *e);
 	if (y > 0 && x > 0)
 	{
 		pre_x = (y - 1) * 20 + x * 20 + (WIN_X / 5 * 2);
 		pre_y = (y - 1) * 20 - x * 20 + (WIN_Y / 5 * 2);
 	}
+	ft_line(e->x, e->y, pre_x, pre_y, *e);
 	// ft_trace(e, pre_x, pre_y);
 	pre_y = e->y;
 	pre_x = e->x;
