@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/18 19:29:47 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/20 19:09:14 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,24 @@
 
 void	ft_calc(size_t x, size_t y, t_env *e)
 {
-	int		pre_y;
-	int		pre_x;
-
 	e->x = y * 20 + x * 20 + (WIN_X / 5 * 2);
-	e->y = y * 20 - x * 20 + (WIN_Y / 5 * 2);
+	e->y = y * 20 - x * 20 - e->tab[y][x] + (WIN_Y / 5 * 2);
 
-	if (y == 0)
-		pre_y = e->y;
 	if (x == 0)
-		pre_x = e->x;
-	ft_line(e->x, e->y, pre_x, pre_y, *e);
-	if (y > 0 && x > 0)
 	{
-		pre_x = (y - 1) * 20 + x * 20 + (WIN_X / 5 * 2);
-		pre_y = (y - 1) * 20 - x * 20 + (WIN_Y / 5 * 2);
+		e->y_prim = e->y;
+		e->x_prim = e->x;
 	}
-	ft_line(e->x, e->y, pre_x, pre_y, *e);
-	// ft_trace(e, pre_x, pre_y);
-	pre_y = e->y;
-	pre_x = e->x;
+	ft_draw(e->x, e->y, e);
+	if (y > 0)
+	{
+		e->x_prim = (y - 1) * 20 + x * 20 + (WIN_X / 5 * 2);
+		e->y_prim = (y - 1) * 20 - x * 20 - e->tab[y - 1][x]
+			+ (WIN_Y / 5 * 2);
+		ft_draw(e->x, e->y, e);
+	}
+	e->y_prim = e->y;
+	e->x_prim = e->x;
 }
 
 void	ft_print(t_env *e)
@@ -49,12 +47,10 @@ void	ft_print(t_env *e)
 		while (x < e->cnt_col)
 		{
 			ft_calc(x, y, e);
-			mlx_pixel_put(e->mlx, e->win, e->x, e->y, e->color);
 			++x;
 		}
 		++y;
 	}
-
 }
 
 int	ft_key_funct(int keycode, t_env *e)
@@ -64,6 +60,10 @@ int	ft_key_funct(int keycode, t_env *e)
 		e->color = e->color - 0x111111;
 	if (keycode == 116 && e->color <= 0xEEEEEE)
 		e->color = e->color + 0x111111;
+	if (keycode == 69)
+		e->zoom = e->zoom + e->zoom;
+	if (keycode == 78)
+		e->zoom = e->zoom - e->zoom;
 	if (keycode == 53)
 		exit(0);
 	mlx_clear_window(e->mlx, e->win);
@@ -80,7 +80,6 @@ int	main(int argc, char **argv)
 		ft_error("number of argument incorrect");
 	ft_parse(&e, argv[1]);
 	e.color = 0x00FFFFFF;
-	e.y = WIN_Y / 4;
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
 	ft_print(&e);

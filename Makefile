@@ -6,7 +6,7 @@
 #    By: jfortin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2016/02/18 19:27:24 by jfortin          ###   ########.fr        #
+#    Updated: 2016/02/20 19:10:03 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = fdf
 
 SRC = 	main.c \
 		parse.c \
-		ft_line.c
+		draw.c
 
 OBJ = $(SRC:.c=.o)
 
