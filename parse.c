@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/15 21:53:04 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/22 23:08:27 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_int2d(t_env *e, char *file)
 	ft_split_line(e);
 	while (e->line[e->cnt_col])
 		++e->cnt_col;
+	e->max_height = ft_atoi(e->line[0]);
 	while (e->cnt_line > 0)
 	{
 		e->tab[e->cnt_line - 1] = (int*)ft_memalloc(sizeof(int*) * e->cnt_col);
@@ -87,7 +88,11 @@ void	ft_parse(t_env *e, char *file)
 		++e->cnt_line;
 		nbr_col = -1;
 		while (e->line[++nbr_col])
+		{
 			e->tab[e->cnt_line][nbr_col] = ft_atoi(e->line[nbr_col]);
+			if (e->tab[e->cnt_line][nbr_col] > e->max_height)
+				e->max_height = e->tab[e->cnt_line][nbr_col];
+		}
 		if (nbr_col != e->cnt_col)
 			ft_error("invalid map");
 	}

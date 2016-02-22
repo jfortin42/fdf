@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/22 19:20:48 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/22 23:30:16 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # define MINUS 78
 # define STAR 67
 # define SLASH 75
+# define PAGE_UP 116
+# define PAGE_DOWN 121
+# define ZERO 82
 # define ESC 53
 
 # include "mlx.h"
@@ -49,6 +52,9 @@ typedef struct		s_env
 	int				lr;
 	int				ud;
 	int				height;
+
+	int				max_height;
+	int				contrast;
 
 	int				tmpx;
 	int				tmpy;
