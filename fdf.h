@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/20 19:09:47 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/22 15:44:54 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_env
 	void			*mlx;
 	void			*win;
 	int				zoom;
+	int				lr;
 
 	int				tmpx;
 	int				tmpy;
