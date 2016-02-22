@@ -6,7 +6,7 @@
 #    By: jfortin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2016/02/20 19:10:03 by jfortin          ###   ########.fr        #
+#    Updated: 2016/02/22 18:19:03 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-		@make -C libft re
+		@make -C libft
 		@gcc $(FLAG) -o $(NAME) $(OBJ) -lmlx -framework OpenGL -framework AppKit libft/libft.a
 		@echo "$(NAME) created"
 
@@ -36,5 +36,6 @@ fclean: clean
 		@echo "$(NAME) deleted"
 
 re : fclean all
+	@make re -C libft
 
 .PHONY: all, clean, fclean, re

@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/22 17:26:24 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/22 19:24:26 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 void	ft_calc(size_t x, size_t y, t_env *e)
 {
-	e->x = (y * 20 + x * 20) + e->lr;
-	e->y = y * 20 - x * 20 - e->tab[y][x] + (WIN_Y / 5 * 2);
+	e->x = (WIN_X * 2 / 5) + y * e->zoom + x * e->zoom + e->lr;
+	e->y = (WIN_Y / 5 * 2) + y * e->zoom - x * e->zoom - e->tab[y][x]
+		* e->height + e->ud;
 
 	if (x == 0)
 	{
@@ -26,9 +27,9 @@ void	ft_calc(size_t x, size_t y, t_env *e)
 	ft_draw(e->x, e->y, e);
 	if (y > 0)
 	{
-		e->x_prim = ((y - 1) * 20 + x * 20) + e->lr;
-		e->y_prim = (y - 1) * 20 - x * 20 - e->tab[y - 1][x]
-			+ (WIN_Y / 5 * 2);
+		e->x_prim = (WIN_X / 5 * 2) + (y - 1) * e->zoom + x * e->zoom + e->lr;
+		e->y_prim = (WIN_Y / 5 * 2) + (y - 1) * e->zoom - x * e->zoom
+			- e->tab[y - 1][x] * e->height + e->ud;
 		ft_draw(e->x, e->y, e);
 	}
 	e->y_prim = e->y;
@@ -60,11 +61,23 @@ int	ft_key_funct(int keycode, t_env *e)
 		e->color = e->color - 0x111111;
 	if (keycode == 116 && e->color <= 0xEEEEEE)
 		e->color = e->color + 0x111111;
-	if (keycode == 123)
-		e->lr += 10;
-	if (keycode == 124)
+	if (keycode == LEFT)
 		e->lr -= 10;
-	if (keycode == 53)
+	if (keycode == RIGHT)
+		e->lr += 10;
+	if (keycode == UP)
+		e->ud -= 10;
+	if (keycode == DOWN)
+		e->ud += 10;
+	if (keycode == PLUS)
+		e->zoom += 1;
+	if (keycode == MINUS)
+		e->zoom -= 1;
+	if (keycode == STAR)
+		e->height += 1;
+	if (keycode == SLASH)
+		e->height -= 1;
+	if (keycode == ESC)
 		exit(0);
 	mlx_clear_window(e->mlx, e->win);
 	ft_print(e);
@@ -81,6 +94,9 @@ int	main(int argc, char **argv)
 	ft_parse(&e, argv[1]);
 	e.color = 0x00FFFFFF;
 	e.lr = 0;
+	e.ud = 0;
+	e.zoom = 1;
+	e.height = 1;
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
 	ft_print(&e);

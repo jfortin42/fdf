@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/22 15:44:54 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/22 19:20:48 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 
 # define WIN_X 1920
 # define WIN_Y 1080
+
+# define LEFT 123
+# define RIGHT 124
+# define UP 126
+# define DOWN 125
+# define PLUS 69
+# define MINUS 78
+# define STAR 67
+# define SLASH 75
+# define ESC 53
 
 # include "mlx.h"
 # include <fcntl.h>
@@ -37,6 +47,8 @@ typedef struct		s_env
 	void			*win;
 	int				zoom;
 	int				lr;
+	int				ud;
+	int				height;
 
 	int				tmpx;
 	int				tmpy;
