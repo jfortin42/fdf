@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/22 23:30:16 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/24 18:45:00 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # define WIN_X 1920
 # define WIN_Y 1080
+
+# define KEYPRESS 2
+# define KEYRELEASE 3
+# define KEYPRESSMASK (1L<<0)
+# define KEYRELEASEMASK (1L<<1)
 
 # define LEFT 123
 # define RIGHT 124
@@ -66,7 +71,7 @@ typedef struct		s_env
 	int				error;
 }					t_env;
 
-void	ft_parse(t_env *e, char *line);
-void	ft_draw(int x2, int y2, t_env *e);
+void				ft_parse(t_env *e, char *line);
+void				ft_draw(int x2, int y2, t_env *e);
 
 #endif
