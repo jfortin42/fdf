@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/24 19:19:15 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/25 19:07:32 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		ft_key_hit(int keycode, t_env *e)
 	if (keycode == ESC)
 		exit(0);
 	ft_print(e);
+	ft_put_help(*e);
 	printf("color %x\n", e->color);
 	return (0);
 }
@@ -95,14 +96,19 @@ int		ft_key_hit(int keycode, t_env *e)
 int		main(int argc, char **argv)
 {
 	t_env	e;
+	int		m_x;
+	int		m_y;
 
+	m_x = WIN_X * 2 / 5;
+	m_y = WIN_Y * 2 / 5;
 	if (argc != 2)
 		ft_error("number of argument incorrect");
 	ft_parse(&e, argv[1]);
 	ft_init(&e);
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
-	ft_print(&e);
+	mlx_string_put(e.mlx, e.win, m_x, m_y, 0xFF9933, WELCOME);
+	mlx_string_put(e.mlx, e.win, m_x + 16, m_y + 20, 0xFF9933, PRESS);
 	mlx_hook(e.win, KEYPRESS, KEYPRESSMASK, ft_key_hit, &e);
 	mlx_loop(e.mlx);
 	return (0);

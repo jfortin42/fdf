@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/20 17:33:10 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/20 17:49:21 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/25 19:07:25 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,24 @@ void	ft_draw(int x2, int y2, t_env *e)
 			e->tmpy += e->sy;
 		}
 	}
+}
+
+void	ft_put_help(t_env e)
+{
+	int	m_y;
+
+	m_y = 0;
+	mlx_string_put(e.mlx, e.win, 0, m_y, 0xFFFFFF, CONTROLS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 16, 0xFFFFFF, H_UP);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 32, 0xFFFFFF, H_DOWN);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 48, 0xFFFFFF, H_LEFT);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 64, 0xFFFFFF, H_RIGHT);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 80, 0xFFFFFF, H_PLUS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 96, 0xFFFFFF, H_MINUS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 112, 0xFFFFFF, H_STAR);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 128, 0xFFFFFF, H_SLASH);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 144, 0xFFFFFF, H_PAGE_UP);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 160, 0xFFFFFF, H_PAGE_DOWN);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 176, 0xFFFFFF, H_ZERO);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 192, 0xFFFFFF, H_ESC);
 }
