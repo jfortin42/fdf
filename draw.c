@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/20 17:33:10 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/26 17:40:23 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/26 18:49:17 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_put_pixel(t_env *e, int x, int y, int color)
 	if (y >= WIN_Y || x >= WIN_X || x < 0 || y < 0)
 		return ;
 	tmp = (int *)&e->imc[(y * e->imlen) + (x * (e->bpp / 8))];
-	*tmp = e->color;
+	*tmp = color;
 }
 
 void	ft_draw(int x2, int y2, t_env *e)

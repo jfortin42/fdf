@@ -6,7 +6,7 @@
 #    By: jfortin <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2016/02/11 16:46:00 by jfortin          ###   ########.fr        #
+#    Updated: 2016/02/26 18:51:54 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ $(NAME): $(OBJ)
 
 clean:
 		@rm -f $(OBJ)
-		@echo "OBJ deleted"
+		@echo "libft OBJ deleted"
 
 fclean: clean
 		@rm -f $(NAME)

@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/22 23:08:27 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/26 18:48:40 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ void	ft_parse(t_env *e, char *file)
 	}
 	++e->cnt_line;
 	// checking
-	int		x;
-	int		y;
+	size_t		x;
+	size_t		y;
 	y = 0;
 	while (y < e->cnt_line)
 	{

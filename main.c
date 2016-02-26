@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/26 17:37:10 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/26 18:14:21 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		main(int argc, char **argv)
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
 	e.im = mlx_new_image(e.mlx, WIN_X, WIN_Y);
+	e.imc = mlx_get_data_addr(e.im, &e.bpp, &e.imlen, &e.endi);
 	mlx_string_put(e.mlx, e.win, m_x, m_y, 0xFF9933, WELCOME);
 	mlx_string_put(e.mlx, e.win, m_x + 16, m_y + 20, 0xFF9933, PRESS);
 	mlx_hook(e.win, KEYPRESS, KEYPRESSMASK, ft_key_hit, &e);
