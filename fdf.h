@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/25 19:24:33 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/26 17:43:07 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,25 +59,25 @@
 typedef struct		s_env
 {
 	int				fd;
-	int				**tab;
+	void			*mlx;
+	void			*win;
 	char			**line;
 	size_t			cnt_line;
 	size_t			cnt_col;
+	int				**tab;
 	int				x;
 	int				y;
 	int				x_prim;
 	int				y_prim;
 	int				color;
-	void			*mlx;
-	void			*win;
+
+	int				max_height;
 
 	int				zoom;
 	int				lr;
 	int				ud;
 	int				height;
 	int				contrast;
-
-	int				max_height;
 
 	int				tmpx;
 	int				tmpy;
@@ -87,10 +87,17 @@ typedef struct		s_env
 	int				sy;
 	int				tmp_error;
 	int				error;
+
+	void			*im;
+	char			*imc;
+	int				imlen;
+	int				bpp;
+	int				endi;
 }					t_env;
 
 void				ft_parse(t_env *e, char *line);
 void				ft_draw(int x2, int y2, t_env *e);
-void					ft_put_help(t_env e);
+void				ft_put_help(t_env e);
+void				ft_put_pixel(t_env *e, int x, int y, int color);
 
 #endif

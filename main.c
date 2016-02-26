@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/25 19:07:32 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/26 17:37:10 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int		ft_print(t_env *e)
 	size_t	x;
 
 	y = 0;
-	mlx_clear_window(e->mlx, e->win);
+	mlx_destroy_image(e->mlx, e->im);
+	e->im = mlx_new_image(e->mlx, WIN_X, WIN_Y);
 	while (y < e->cnt_line)
 	{
 		x = 0;
@@ -64,7 +65,8 @@ int		ft_print(t_env *e)
 		}
 		++y;
 	}
-	mlx_pixel_put(e->mlx, e->win, e->tmpx, e->tmpy, e->color);
+	ft_put_pixel(e, e->tmpx, e->tmpy, e->color);
+	mlx_put_image_to_window(e->mlx, e->win, e->im, 0, 0);
 	return (0);
 }
 
@@ -107,6 +109,7 @@ int		main(int argc, char **argv)
 	ft_init(&e);
 	e.mlx = mlx_init();
 	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
+	e.im = mlx_new_image(e.mlx, WIN_X, WIN_Y);
 	mlx_string_put(e.mlx, e.win, m_x, m_y, 0xFF9933, WELCOME);
 	mlx_string_put(e.mlx, e.win, m_x + 16, m_y + 20, 0xFF9933, PRESS);
 	mlx_hook(e.win, KEYPRESS, KEYPRESSMASK, ft_key_hit, &e);
