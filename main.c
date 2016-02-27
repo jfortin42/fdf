@@ -6,14 +6,13 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/26 18:14:21 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/27 17:19:45 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
-void	ft_init(t_env *e)
+static void	ft_init(t_env *e)
 {
 	e->color = 0x3356FF;
 	e->lr = 0;
@@ -23,11 +22,13 @@ void	ft_init(t_env *e)
 	e->contrast = 0;
 }
 
-void	ft_calc(size_t x, size_t y, t_env *e)
+static void	ft_calc(size_t x, size_t y, t_env *e)
 {
 	e->x = (WIN_X / 5 * 2) + y * e->zoom + x * e->zoom + e->lr;
 	e->y = (WIN_Y / 5 * 2) + y * e->zoom - x * e->zoom - e->tab[y][x]
 		* e->height + e->ud;
+	if (e->max_height == 0)
+		e->max_height = 1;
 	e->color = e->tab[y][x] * (0x3356FF / e->max_height) + e->contrast;
 	if (x == 0)
 	{
@@ -47,13 +48,14 @@ void	ft_calc(size_t x, size_t y, t_env *e)
 	e->x_prim = e->x;
 }
 
-int		ft_print(t_env *e)
+static int	ft_print(t_env *e)
 {
-	size_t	y;
-	size_t	x;
+	int	y;
+	int	x;
 
 	y = 0;
 	mlx_destroy_image(e->mlx, e->im);
+	mlx_clear_window(e->mlx, e->win);
 	e->im = mlx_new_image(e->mlx, WIN_X, WIN_Y);
 	while (y < e->cnt_line)
 	{
@@ -70,20 +72,20 @@ int		ft_print(t_env *e)
 	return (0);
 }
 
-int		ft_key_hit(int keycode, t_env *e)
+static int	ft_key_hit(int keycode, t_env *e)
 {
-	printf("Key press %d\n", keycode);
 	if (keycode == PAGE_DOWN && e->color >= 0x111111)
 		e->contrast -= 0x123456;
 	if (keycode == PAGE_UP && e->color != 0xFFFFFF)
 		e->contrast += 0x123456;
 	if (keycode == LEFT || keycode == RIGHT)
-		e->lr += (keycode == LEFT ? -10 * e->zoom : 10 * e->zoom);
+		e->lr += (keycode == LEFT ? 2 * e->zoom : -2 * e->zoom);
 	if (keycode == UP || keycode == DOWN)
-		e->ud += (keycode == UP ? -10 * e->zoom : 10 * e->zoom);
+		e->ud += (keycode == UP ? 2 * e->zoom : -2 * e->zoom);
 	if ((keycode == MINUS && e->zoom > 1) || keycode == PLUS)
 		e->zoom += (keycode == MINUS ? -1 : 1);
-	if (keycode == SLASH || keycode == STAR)
+	if ((keycode == SLASH && e->height > -5)
+			|| (keycode == STAR && e->height < 5))
 		e->height += (keycode == SLASH ? -1 : 1);
 	if (keycode == ZERO)
 		ft_init(e);
@@ -91,11 +93,10 @@ int		ft_key_hit(int keycode, t_env *e)
 		exit(0);
 	ft_print(e);
 	ft_put_help(*e);
-	printf("color %x\n", e->color);
 	return (0);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	t_env	e;
 	int		m_x;
@@ -108,7 +109,7 @@ int		main(int argc, char **argv)
 	ft_parse(&e, argv[1]);
 	ft_init(&e);
 	e.mlx = mlx_init();
-	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "mlx42");
+	e.win = mlx_new_window(e.mlx, WIN_X, WIN_Y, "fdf");
 	e.im = mlx_new_image(e.mlx, WIN_X, WIN_Y);
 	e.imc = mlx_get_data_addr(e.im, &e.bpp, &e.imlen, &e.endi);
 	mlx_string_put(e.mlx, e.win, m_x, m_y, 0xFF9933, WELCOME);

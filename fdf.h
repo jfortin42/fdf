@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:06:23 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/26 17:43:07 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/27 17:00:46 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef struct		s_env
 	void			*mlx;
 	void			*win;
 	char			**line;
-	size_t			cnt_line;
-	size_t			cnt_col;
+	int				cnt_line;
+	int				cnt_col;
 	int				**tab;
 	int				x;
 	int				y;

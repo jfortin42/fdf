@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/20 17:33:10 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/26 18:49:17 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/27 17:12:17 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,17 @@ void	ft_put_help(t_env e)
 	int	m_y;
 
 	m_y = 0;
-	mlx_string_put(e.mlx, e.win, 0, m_y, 0xFFFFFF, CONTROLS);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 16, 0xFFFFFF, H_UP);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 32, 0xFFFFFF, H_DOWN);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 48, 0xFFFFFF, H_LEFT);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 64, 0xFFFFFF, H_RIGHT);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 80, 0xFFFFFF, H_PLUS);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 96, 0xFFFFFF, H_MINUS);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 112, 0xFFFFFF, H_STAR);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 128, 0xFFFFFF, H_SLASH);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 144, 0xFFFFFF, H_PAGE_UP);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 160, 0xFFFFFF, H_PAGE_DOWN);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 176, 0xFFFFFF, H_ZERO);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 192, 0xFFFFFF, H_ESC);
+	mlx_string_put(e.mlx, e.win, 0, m_y, 0xDDDDDD, CONTROLS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 16, 0xDDDDDD, H_UP);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 32, 0xDDDDDD, H_DOWN);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 48, 0xDDDDDD, H_LEFT);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 64, 0xDDDDDD, H_RIGHT);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 80, 0xDDDDDD, H_PLUS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 96, 0xDDDDDD, H_MINUS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 112, 0xDDDDDD, H_STAR);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 128, 0xDDDDDD, H_SLASH);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 144, 0xDDDDDD, H_PAGE_UP);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 160, 0xDDDDDD, H_PAGE_DOWN);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 176, 0xDDDDDD, H_ZERO);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 192, 0xDDDDDD, H_ESC);
 }

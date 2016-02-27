@@ -6,13 +6,13 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/26 18:48:40 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/27 17:08:28 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		ft_split_line(t_env *e)
+static int	ft_split_line(t_env *e)
 {
 	char	*line;
 	int		ret;
@@ -27,7 +27,7 @@ int		ft_split_line(t_env *e)
 	return (ret);
 }
 
-void	ft_int2d(t_env *e, char *file)
+static void	ft_int2d(t_env *e, char *file)
 {
 	char	*line;
 	int		len;
@@ -56,7 +56,7 @@ void	ft_int2d(t_env *e, char *file)
 	}
 }
 
-void	ft_freestr2d(t_env *e)
+static void	ft_freestr2d(t_env *e)
 {
 	int		i;
 
@@ -69,19 +69,16 @@ void	ft_freestr2d(t_env *e)
 	free(e->line);
 }
 
-void	ft_parse(t_env *e, char *file)
+void		ft_parse(t_env *e, char *file)
 {
-	size_t	nbr_col;
+	int	nbr_col;
 
-	nbr_col = 0;
+	nbr_col = -1;
 	if ((e->fd = open(file, O_RDONLY)) <= 0)
 		ft_error("open has failed");
 	ft_int2d(e, file);
-	while (nbr_col < e->cnt_col)
-	{
+	while (++nbr_col < e->cnt_col)
 		e->tab[0][nbr_col] = ft_atoi(e->line[nbr_col]);
-		++nbr_col;
-	}
 	ft_freestr2d(e);
 	while (ft_split_line(e) == 1)
 	{
@@ -97,20 +94,4 @@ void	ft_parse(t_env *e, char *file)
 			ft_error("invalid map");
 	}
 	++e->cnt_line;
-	// checking
-	size_t		x;
-	size_t		y;
-	y = 0;
-	while (y < e->cnt_line)
-	{
-		x = 0;
-		while (x < e->cnt_col)
-		{
-			ft_putnbr(e->tab[y][x]);
-			ft_putchar(' ');
-			++x;
-		}
-		ft_putchar('\n');
-		++y;
-	}
 }
