@@ -6,7 +6,7 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/29 18:53:30 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/03/09 13:52:03 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static int	ft_split_line(t_env *e)
 	if (get_next_line(e->fd, &line) == 1)
 	{
 		e->line = ft_strsplit(line, ' ');
+		if (!e->line)
+			ft_error("invalid map");
 		free(line);
 		++ret;
 	}
