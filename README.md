@@ -3,8 +3,8 @@
 fdf is a program developped for my learning course at 42 school to view 2D topological maps in a 3D space.
 <img align="center" src="http://image.noelshack.com/fichiers/2016/46/1479404070-fdf-42.png" width="100%" />
 Several options are available (see [Shortcuts](https://github.com/jfortin42/fdf#shortcuts) section for more info)
-* Move the map in the 3D space
-* Zoom and unzoom
+* Move the 3D map
+* Zoom in and zoom out
 * Increase or decrease the depth factor
 * Change color
 
@@ -13,7 +13,7 @@ Several options are available (see [Shortcuts](https://github.com/jfortin42/fdf#
 git clone https://github.com/jfortin42/fdf ~/fdf
 cd ~/fdf && make && ./fdf
 ```
-You have to launch the program with a parameter. This is the name of the map you would like to open at the execution of the program.<br />
+Launch the program with a parameter which is the name of the map you would like to open.<br />
 You have example maps in the _test_maps_ folder. The map must be valid.
 
 Example : ⇣
@@ -47,7 +47,7 @@ Example : ⇣
 <td valign="top" align="center"><kbd>&nbsp;▲&nbsp;</kbd> <kbd>&nbsp;▼&nbsp;</kbd></td>
 </tr>
 <tr>
-<td valign="top" height="30px">Zoom/unzoom</td>
+<td valign="top" height="30px">Zoom in/zoom out</td>
 <td valign="top" align="center"><kbd>&nbsp;+&nbsp;</kbd> <kbd>&nbsp;-&nbsp;</kbd></td>
 </tr>
 <tr>
@@ -65,4 +65,4 @@ Example : ⇣
 </tbody>
 </table>
 ## Contact & contribute
-If you want to contact me, or fix/improve fdf, just send me a mail at **jfortin@student.42.fr**
+If you want to contact me, or fix/improve fdf, feel free to send me an e-mail at **jfortin@student.42.fr**
