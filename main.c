@@ -53,19 +53,15 @@ static int	ft_print(t_env *e)
 	int	y;
 	int	x;
 
-	y = 0;
+	y = -1;
 	mlx_destroy_image(e->mlx, e->im);
 	mlx_clear_window(e->mlx, e->win);
 	e->im = mlx_new_image(e->mlx, WIN_X, WIN_Y);
-	while (y < e->cnt_line)
+	while (++y < e->cnt_line)
 	{
-		x = 0;
-		while (x < e->cnt_col)
-		{
+		x = -1;
+		while (++x < e->cnt_col)
 			ft_calc(x, y, e);
-			++x;
-		}
-		++y;
 	}
 	ft_put_pixel(e, e->tmpx, e->tmpy, e->color);
 	mlx_put_image_to_window(e->mlx, e->win, e->im, 0, 0);

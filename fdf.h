@@ -51,7 +51,7 @@
 # define H_ZERO "     reset      |     0"
 # define H_ESC "  exit program  |    esc"
 
-# include "mlx.h"
+# include "minilibx_macos/mlx.h"
 # include <fcntl.h>
 # include <unistd.h>
 # include "libft/includes/libft.h"

@@ -14,12 +14,9 @@
 
 void	ft_put_pixel(t_env *e, int x, int y, int color)
 {
-	int	*tmp;
-
 	if (y >= WIN_Y || x >= WIN_X || x < 0 || y < 0)
 		return ;
-	tmp = (int *)&e->imc[(y * e->imlen) + (x * (e->bpp / 8))];
-	*tmp = color;
+	*(int *)&e->imc[(y * e->imlen) + (x * (e->bpp / 8))] = color;
 }
 
 void	ft_draw(int x2, int y2, t_env *e)
