@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/08 17:03:44 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/27 17:19:45 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/12/17 17:08:02 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,22 @@ static int	ft_print(t_env *e)
 
 static int	ft_key_hit(int keycode, t_env *e)
 {
-	if (keycode == PAGE_DOWN && e->color >= 0x111111)
+	if (keycode == KEY_3 && e->color >= 0x111111)
 		e->contrast -= 0x123456;
-	if (keycode == PAGE_UP && e->color != 0xFFFFFF)
+	if (keycode == KEY_4 && e->color != 0xFFFFFF)
 		e->contrast += 0x123456;
-	if (keycode == LEFT || keycode == RIGHT)
-		e->lr += (keycode == LEFT ? 2 * e->zoom : -2 * e->zoom);
-	if (keycode == UP || keycode == DOWN)
-		e->ud += (keycode == UP ? 2 * e->zoom : -2 * e->zoom);
-	if ((keycode == MINUS && e->zoom > 1) || keycode == PLUS)
-		e->zoom += (keycode == MINUS ? -1 : 1);
-	if ((keycode == SLASH && e->height > -5)
-			|| (keycode == STAR && e->height < 5))
-		e->height += (keycode == SLASH ? -1 : 1);
-	if (keycode == ZERO)
+	if (keycode == KEY_D || keycode == KEY_A)
+		e->lr += (keycode == KEY_D ? 2 * e->zoom : -2 * e->zoom);
+	if (keycode == KEY_S || keycode == KEY_W)
+		e->ud += (keycode == KEY_S ? 2 * e->zoom : -2 * e->zoom);
+	if ((keycode == KEY_Q && e->zoom > 1) || keycode == KEY_E)
+		e->zoom += (keycode == KEY_Q ? -1 : 1);
+	if ((keycode == KEY_1 && e->height > -5)
+			|| (keycode == KEY_2 && e->height < 5))
+		e->height += (keycode == KEY_1 ? -1 : 1);
+	if (keycode == KEY_SPACEBAR)
 		ft_init(e);
-	if (keycode == ESC)
+	if (keycode == KEY_ESCAPE)
 		exit(0);
 	ft_print(e);
 	ft_put_help(*e);
