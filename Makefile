@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jfortin <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2016/02/27 17:16:36 by jfortin          ###   ########.fr        #
+#    Updated: 2019/10/31 12:06:02 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ $(NAME): $(OBJ)
 		@make -C libft
 		@make -C minilibx_macos
 		@gcc $(FLAG) -o $(NAME) $(OBJ) $(MLX) -L libft -lft
+		@echo $(NAME) > .gitignore
 		@echo "$(NAME) created"
 
-%.o: %.c
+%.o: %.c fdf.h
 		@gcc $(FLAG) -c $< -o $@
 clean:
 		@make clean -C libft

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/20 17:33:10 by jfortin           #+#    #+#             */
-/*   Updated: 2016/12/17 17:36:23 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/29 18:06:58 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	ft_put_pixel(t_env *e, int x, int y, int color)
 {
+	int	*tmp;
+
 	if (y >= WIN_Y || x >= WIN_X || x < 0 || y < 0)
 		return ;
-	*(int *)&e->imc[(y * e->imlen) + (x * (e->bpp / 8))] = color;
+	tmp = (int *)&e->imc[(y * e->imlen) + (x * (e->bpp / 8))];
+	*tmp = color;
 }
 
 void	ft_draw(int x2, int y2, t_env *e)
@@ -45,6 +48,26 @@ void	ft_draw(int x2, int y2, t_env *e)
 	}
 }
 
+int			ft_ret_error(char *message, int ret_value)
+{
+	ft_putstr_fd(message, 2);
+	ft_putchar_fd('\n', 2);
+	return (ret_value);
+}
+
+void		ft_free_arr(void **arr)
+{
+	int		line;
+
+	line = 0;
+	while (arr && arr[line])
+	{
+		free(arr[line]);
+		line++;
+	}
+	free(arr);
+}
+
 void	ft_put_help(t_env e)
 {
 	int	m_y;
@@ -55,12 +78,12 @@ void	ft_put_help(t_env e)
 	mlx_string_put(e.mlx, e.win, 0, m_y + 32, 0xDDDDDD, H_DOWN);
 	mlx_string_put(e.mlx, e.win, 0, m_y + 48, 0xDDDDDD, H_LEFT);
 	mlx_string_put(e.mlx, e.win, 0, m_y + 64, 0xDDDDDD, H_RIGHT);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 80, 0xDDDDDD, H_ZOOM_IN);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 96, 0xDDDDDD, H_ZOOM_OUT);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 112, 0xDDDDDD, H_INC_H);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 128, 0xDDDDDD, H_DEC_H);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 144, 0xDDDDDD, H_COLOR_N);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 160, 0xDDDDDD, H_COLOR_P);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 176, 0xDDDDDD, H_RESET);
-	mlx_string_put(e.mlx, e.win, 0, m_y + 192, 0xDDDDDD, H_EXIT);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 80, 0xDDDDDD, H_PLUS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 96, 0xDDDDDD, H_MINUS);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 112, 0xDDDDDD, H_STAR);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 128, 0xDDDDDD, H_SLASH);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 144, 0xDDDDDD, H_PAGE_UP);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 160, 0xDDDDDD, H_PAGE_DOWN);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 176, 0xDDDDDD, H_ZERO);
+	mlx_string_put(e.mlx, e.win, 0, m_y + 192, 0xDDDDDD, H_ESC);
 }

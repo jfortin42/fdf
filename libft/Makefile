@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jfortin <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2016/02/26 18:51:54 by jfortin          ###   ########.fr        #
+#    Updated: 2019/10/31 12:06:50 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,9 +84,10 @@ $(NAME): $(OBJ)
 				@ar rc $(NAME) $(OBJ)
 				@echo "$(NAME) created"
 				@ranlib $(NAME)
+				@echo $(NAME) > .gitignore
 				@echo "$(NAME) indexed"
 
-%.o: %.c
+%.o: %.c includes/libft.h
 				@gcc $(FLAG) -I includes -c $< -o $@
 
 clean:

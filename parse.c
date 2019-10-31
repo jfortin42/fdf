@@ -6,93 +6,135 @@
 /*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/03/09 13:52:03 by jfortin          ###   ########.fr       */
+/*   Updated: 2016/02/29 18:53:30 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	ft_split_line(t_env *e)
+static int	ft_cnt_map_columns(int *columns, int fd)
 {
-	char	*line;
+	char	*buf_line;
+	char	**split;
 	int		ret;
 
-	ret = 0;
-	if (get_next_line(e->fd, &line) == 1)
+	if ((ret = get_next_line(fd, &buf_line)) == -1)
+		return (ft_ret_error(strerror(errno), FALSE));
+	else if (ret == 0)
 	{
-		e->line = ft_strsplit(line, ' ');
-		if (!e->line)
-			ft_error("invalid map");
-		free(line);
-		++ret;
+		free(buf_line);
+		return (END_FILE);
 	}
-	return (ret);
+	if ((split = ft_strsplit(buf_line, ' ')) == NULL)
+	{
+		free(buf_line);
+		return (ft_ret_error(strerror(errno), FALSE));
+	}
+	*columns = 0;
+	while (split[*columns])
+		(*columns)++;
+	ft_free_arr((void **)split);
+	free(buf_line);
+	return (TRUE);
 }
 
-static void	ft_int2d(t_env *e, char *file)
+static int	ft_get_map_size(t_map *map, int fd)
 {
-	char	*line;
-	int		len;
+	int		first_line_columns;
+	int		other_line_columns;
+	int		ret;
 
-	e->cnt_col = 0;
-	e->cnt_line = 0;
-	while (get_next_line(e->fd, &line) == 1)
+	map->cnt_line = 0;
+	if ((ret = ft_cnt_map_columns(&first_line_columns, fd)) == END_FILE)
+		return (ft_ret_error("empty file", FALSE));
+	else if (ret == FALSE)
+		return (FALSE);
+	map->cnt_line++;
+	while ((ret = ft_cnt_map_columns(&other_line_columns, fd)) == TRUE)
 	{
-		++e->cnt_line;
-		len = ft_strlen(line);
-		free(line);
-		if (!len)
-			ft_error("invalid map");
-	}
-	if (e->cnt_line == 0)
-		ft_error("read has failed");
-	e->tab = (int **)ft_memalloc(sizeof(int *) * e->cnt_line);
-	close(e->fd);
-	e->fd = open(file, O_RDONLY);
-	ft_split_line(e);
-	while (e->line[e->cnt_col])
-		++e->cnt_col;
-	e->max_height = ft_atoi(e->line[0]);
-	while (e->cnt_line > 0)
-		e->tab[--e->cnt_line] = (int*)ft_memalloc(sizeof(int*) * e->cnt_col);
-}
-
-static void	ft_freestr2d(t_env *e)
-{
-	int		i;
-
-	i = 0;
-	while (e->line[i])
-	{
-		ft_strdel(&e->line[i]);
-		++i;
-	}
-	free(e->line);
-}
-
-void		ft_parse(t_env *e, char *file)
-{
-	int	nbr_col;
-
-	nbr_col = -1;
-	if ((e->fd = open(file, O_RDONLY)) <= 0)
-		ft_error("open has failed");
-	ft_int2d(e, file);
-	while (++nbr_col < e->cnt_col)
-		e->tab[0][nbr_col] = ft_atoi(e->line[nbr_col]);
-	ft_freestr2d(e);
-	while (ft_split_line(e) == 1)
-	{
-		++e->cnt_line;
-		nbr_col = -1;
-		while (e->line[++nbr_col])
+		if (other_line_columns != first_line_columns)
 		{
-			e->tab[e->cnt_line][nbr_col] = ft_atoi(e->line[nbr_col]);
-			if (e->tab[e->cnt_line][nbr_col] > e->max_height)
-				e->max_height = e->tab[e->cnt_line][nbr_col];
+			return (ft_ret_error("each "\
+			"line must have the same number of columns", FALSE));
 		}
-		if (nbr_col != e->cnt_col)
-			ft_error("invalid map");
+		map->cnt_line++;
 	}
-	++e->cnt_line;
+	if (ret == FALSE)
+		return (FALSE);
+	if (first_line_columns == 0)
+		return (ft_ret_error("first line can't be empty", FALSE));
+	map->cnt_col = other_line_columns;
+	return (TRUE);
+}
+
+static int	ft_alloc_arr(t_map *map)
+{
+	int		line;
+
+	if ((map->data = ft_memalloc(map->cnt_line * sizeof(int *))) == NULL)
+		return (ft_ret_error(strerror(errno), FALSE));
+	line = 0;
+	while (line < map->cnt_line)
+	{
+		if ((map->data[line] = ft_memalloc(map->cnt_col * sizeof(int))) == NULL)
+		{
+			ft_free_arr((void **)map->data);
+			return (ft_ret_error(strerror(errno), FALSE));
+		}
+		line++;
+	}
+	return (TRUE);
+}
+
+static int	ft_fill_arr(t_map *map, int fd)
+{
+	char	*buff_line;
+	char	**split;
+	int		line;
+	int		column;
+
+	line = 0;
+	while (get_next_line(fd, &buff_line) == 1)
+	{
+		if ((split = ft_strsplit(buff_line, ' ')) == NULL)
+		{
+			free(buff_line);
+			return (ft_ret_error(strerror(errno), FALSE));
+		}
+		column = 0;
+		while (split[column])
+		{
+			map->data[line][column] = ft_atoi(split[column]);
+			column++;
+		}
+		ft_free_arr((void **)split);
+		line++;
+		free(buff_line);
+	}
+	free(buff_line);
+	return (TRUE);
+}
+
+int			ft_parser(t_map *map, char *path_map)
+{
+	int		fd;
+
+	if ((fd = open(path_map, O_RDONLY)) <= 0)
+		return (ft_ret_error(strerror(errno), FALSE));
+	if (ft_get_map_size(map, fd) == FALSE
+			|| ft_alloc_arr(map) == FALSE)
+	{
+		close(fd);
+		return (FALSE);
+	}
+	close(fd);
+	if ((fd = open(path_map, O_RDONLY)) <= 0)
+		return (ft_ret_error(strerror(errno), FALSE));
+	if (ft_fill_arr(map, fd) == FALSE)
+	{
+		close(fd);
+		return (FALSE);
+	}
+	close(fd);
+	return (TRUE);
 }
