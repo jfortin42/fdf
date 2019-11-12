@@ -6,12 +6,17 @@
 /*   By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/17 16:42:55 by jfortin           #+#    #+#             */
-/*   Updated: 2016/12/17 16:43:17 by jfortin          ###   ########.fr       */
+/*   Updated: 2019/11/10 18:01:39 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEYCODE_MAC_H
 # define KEYCODE_MAC_H
+
+# define KEYPRESS 2
+# define KEYRELEASE 3
+# define KEYPRESSMASK (1L<<0)
+# define KEYRELEASEMASK (1L<<1)
 
 # define KEY_ESCAPE			53
 # define KEY_F1 			122

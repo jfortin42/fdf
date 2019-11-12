@@ -6,15 +6,17 @@
 #    By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/24 10:29:00 by jfortin           #+#    #+#              #
-#    Updated: 2019/10/31 12:06:50 by jfortin          ###   ########.fr        #
+#    Updated: 2019/11/10 17:02:09 by jfortin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FLAG = -Wall -Wextra -Werror
+############################## BIN #############################################
 
 NAME = libft.a
 
-SRC = ft_atoi.c \
+FLAG = -Wall -Wextra -Werror
+
+SRCS = ft_atoi.c \
 		ft_bzero.c \
 		ft_isalnum.c \
 		ft_isalpha.c \
@@ -76,22 +78,44 @@ SRC = ft_atoi.c \
 		get_next_line.c \
 		ft_error.c
 
-OBJ = $(SRC:.c=.o)
+
+INC_DIR = includes
+SRC_DIR = src
+BUILD_DIR = obj
+
+OBJS = $(SRCS:.c=.o)
+OBJ = $(addprefix $(BUILD_DIR)/,$(OBJS))
+DPD = $(OBJ:.o=.d)
+
+override CFLAGS += -Wall -Wextra -Werror -MMD
+
+############################## RULES ###########################################
+
+release:
+		@make -j all CFLAGS:="-O2"
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-				@ar rc $(NAME) $(OBJ)
+				ar rc $(NAME) $(OBJ)
 				@echo "$(NAME) created"
 				@ranlib $(NAME)
 				@echo $(NAME) > .gitignore
 				@echo "$(NAME) indexed"
 
-%.o: %.c includes/libft.h
-				@gcc $(FLAG) -I includes -c $< -o $@
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c Makefile
+				@mkdir -p $(BUILD_DIR)
+				gcc $(CFLAGS) -I $(INC_DIR) -c $< -o $@
+
+############################### DEBUG ##########################################
+
+debug:
+	${MAKE} -j all CFLAGS:="-DDEBUG -g"
+
+############################## GENERAL #########################################
 
 clean:
-		@rm -f $(OBJ)
+		@rm -rf $(BUILD_DIR)
 		@echo "libft OBJ deleted"
 
 fclean: clean

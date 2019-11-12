@@ -3,39 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jfortin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jfortin <jfortin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/11 16:03:19 by jfortin           #+#    #+#             */
-/*   Updated: 2016/02/29 18:53:30 by jfortin          ###   ########.fr       */
+/*   Updated: 2019/11/10 18:00:45 by jfortin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
+#include <sys/errno.h>
 #include "fdf.h"
 
 static int	ft_cnt_map_columns(int *columns, int fd)
 {
-	char	*buf_line;
+	char	*buff;
 	char	**split;
 	int		ret;
 
-	if ((ret = get_next_line(fd, &buf_line)) == -1)
+	if ((ret = get_next_line(fd, &buff)) == -1)
 		return (ft_ret_error(strerror(errno), FALSE));
 	else if (ret == 0)
-	{
-		free(buf_line);
-		return (END_FILE);
-	}
-	if ((split = ft_strsplit(buf_line, ' ')) == NULL)
-	{
-		free(buf_line);
-		return (ft_ret_error(strerror(errno), FALSE));
-	}
+		return (ft_free_ret(buff, END_FILE));
+	if ((split = ft_strsplit(buff, ' ')) == NULL)
+		return (ft_free_ret(buff, ft_ret_error(strerror(errno), FALSE)));
 	*columns = 0;
 	while (split[*columns])
 		(*columns)++;
 	ft_free_arr((void **)split);
-	free(buf_line);
-	return (TRUE);
+	return (ft_free_ret(buff, TRUE));
 }
 
 static int	ft_get_map_size(t_map *map, int fd)
@@ -71,7 +66,7 @@ static int	ft_alloc_arr(t_map *map)
 {
 	int		line;
 
-	if ((map->data = ft_memalloc(map->cnt_line * sizeof(int *))) == NULL)
+	if ((map->data = ft_memalloc((map->cnt_line + 1) * sizeof(int *))) == NULL)
 		return (ft_ret_error(strerror(errno), FALSE));
 	line = 0;
 	while (line < map->cnt_line)
@@ -88,31 +83,30 @@ static int	ft_alloc_arr(t_map *map)
 
 static int	ft_fill_arr(t_map *map, int fd)
 {
-	char	*buff_line;
+	char	*buff;
 	char	**split;
 	int		line;
 	int		column;
 
 	line = 0;
-	while (get_next_line(fd, &buff_line) == 1)
+	while (get_next_line(fd, &buff) == 1)
 	{
-		if ((split = ft_strsplit(buff_line, ' ')) == NULL)
-		{
-			free(buff_line);
-			return (ft_ret_error(strerror(errno), FALSE));
-		}
+		if ((split = ft_strsplit(buff, ' ')) == NULL)
+			return (ft_free_ret(buff, ft_ret_error(strerror(errno), FALSE)));
 		column = 0;
+		map->max_height = ft_atoi(split[column]);
 		while (split[column])
 		{
 			map->data[line][column] = ft_atoi(split[column]);
+			if (map->data[line][column] > map->max_height)
+				map->max_height = map->data[line][column];
 			column++;
 		}
 		ft_free_arr((void **)split);
 		line++;
-		free(buff_line);
+		free(buff);
 	}
-	free(buff_line);
-	return (TRUE);
+	return (ft_free_ret(buff, TRUE));
 }
 
 int			ft_parser(t_map *map, char *path_map)
